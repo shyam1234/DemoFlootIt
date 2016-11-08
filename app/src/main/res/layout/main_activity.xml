@@ -28,7 +28,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="2dp"
             android:layout_toRightOf="@+id/textview_score"
-            android:text="30"
+            android:text="0"
             android:textColor="@color/colorPrimary"
             android:textSize="48sp" />
 
@@ -66,17 +66,22 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:gravity="center"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
         android:id="@+id/rel_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_above="@+id/linearlayout1"
         android:layout_below="@+id/rel_hud"
         android:layout_centerInParent="true">
 
         <ScrollView
+            android:layout_centerInParent="true"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <FrameLayout
+                android:layout_gravity="center"
                 android:id="@+id/view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

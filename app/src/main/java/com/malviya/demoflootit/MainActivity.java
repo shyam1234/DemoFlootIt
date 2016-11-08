@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 /**
  * Created by 23508 on 11/7/2016.
@@ -15,6 +16,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     private ImageView mReset;
     private GameWorld mGameworld;
+    private TextView mScore;
+    private TextView mTotalMoves;
+    public static int mCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,19 +31,19 @@ public class MainActivity extends Activity implements View.OnClickListener {
         mReset.setOnClickListener(this);
 
         //for button
-        ImageView btn1 = (ImageView)findViewById(R.id.imageview1);
+        ImageView btn1 = (ImageView) findViewById(R.id.imageview1);
         btn1.setBackgroundColor(Color.RED);
-        ImageView btn2 = (ImageView)findViewById(R.id.imageview2);
+        ImageView btn2 = (ImageView) findViewById(R.id.imageview2);
         btn2.setBackgroundColor(Color.WHITE);
-        ImageView btn3 = (ImageView)findViewById(R.id.imageview3);
+        ImageView btn3 = (ImageView) findViewById(R.id.imageview3);
         btn3.setBackgroundColor(Color.GREEN);
-        ImageView btn4 = (ImageView)findViewById(R.id.imageview4);
+        ImageView btn4 = (ImageView) findViewById(R.id.imageview4);
         btn4.setBackgroundColor(Color.BLUE);
-        ImageView btn5 = (ImageView)findViewById(R.id.imageview5);
+        ImageView btn5 = (ImageView) findViewById(R.id.imageview5);
         btn5.setBackgroundColor(Color.CYAN);
-        ImageView btn6 = (ImageView)findViewById(R.id.imageview6);
+        ImageView btn6 = (ImageView) findViewById(R.id.imageview6);
         btn6.setBackgroundColor(Color.MAGENTA);
-        ImageView btn7 = (ImageView)findViewById(R.id.imageview7);
+        ImageView btn7 = (ImageView) findViewById(R.id.imageview7);
         btn7.setBackgroundColor(Color.YELLOW);
         btn1.setOnClickListener(this);
         btn2.setOnClickListener(this);
@@ -48,35 +52,54 @@ public class MainActivity extends Activity implements View.OnClickListener {
         btn5.setOnClickListener(this);
         btn6.setOnClickListener(this);
         btn7.setOnClickListener(this);
+
+        mScore = (TextView) findViewById(R.id.textview_score_value);
+        mScore.setText("0");
+
+        mTotalMoves = (TextView) findViewById(R.id.textview_total_move_value);
+        mTotalMoves.setText("0");
+
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.imageview_reset:
-                mGameworld.onReset();
+                reset();
                 break;
             case R.id.imageview1:
-                mGameworld.findCellChainAndFloodWithColor(Color.RED);
+                mCount++;
+                mGameworld.findCellChain(Color.RED);
                 break;
             case R.id.imageview2:
-                mGameworld.findCellChainAndFloodWithColor(Color.WHITE);
+                mCount++;
+                mGameworld.findCellChain(Color.WHITE);
                 break;
             case R.id.imageview3:
-                mGameworld.findCellChainAndFloodWithColor(Color.GREEN);
+                mCount++;
+                mGameworld.findCellChain(Color.GREEN);
                 break;
             case R.id.imageview4:
-                mGameworld.findCellChainAndFloodWithColor(Color.BLUE);
+                mCount++;
+                mGameworld.findCellChain(Color.BLUE);
                 break;
             case R.id.imageview5:
-                mGameworld.findCellChainAndFloodWithColor(Color.CYAN);
+                mCount++;
+                mGameworld.findCellChain(Color.CYAN);
                 break;
             case R.id.imageview6:
-                mGameworld.findCellChainAndFloodWithColor(Color.MAGENTA);
+                mCount++;
+                mGameworld.findCellChain(Color.MAGENTA);
                 break;
             case R.id.imageview7:
-                mGameworld.findCellChainAndFloodWithColor(Color.YELLOW);
+                mCount++;
+                mGameworld.findCellChain(Color.YELLOW);
                 break;
         }
+    }
+
+    private void reset() {
+        mGameworld.onReset();
+        mCount = 0;
     }
 }

@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.HashMap;
 
@@ -25,10 +26,12 @@ public class GameWorld extends View {
     private int randomColor;
     private int widthSize;
     private int heightSize;
+    HashMap<Integer, Integer> hashMap;
 
     public GameWorld(Context pContext) {
         super(pContext);
         mContext = pContext;
+        hashMap = new HashMap<>();
         matrix = new CellInfo[ROW][COL];
         CELL_W = Utils.convertPixelsToDp(CELL_SIZE, mContext);
         CELL_H = Utils.convertPixelsToDp(CELL_SIZE, mContext);
@@ -47,8 +50,6 @@ public class GameWorld extends View {
         paint.setStyle(Paint.Style.STROKE);
         drawRectTable(canvas, paint);
     }
-
-
 
 
     private void drawRectTable(Canvas canvas, Paint mGridPaint) {
@@ -109,10 +110,11 @@ public class GameWorld extends View {
     public void onReset() {
         initTable();
         invalidate();
+        MainActivity.mCount = 0;
     }
 
 
-    public void findCellChainAndFloodWithColor(int selectedColor) {
+    public void findCellChain(int selectedColor) {
         hashMap.clear();
         cellSearch(0, 0, selectedColor);
         floodWithColor();
@@ -123,20 +125,25 @@ public class GameWorld extends View {
         for (int row = 0; row < matrix.length; row++) {
             for (int col = 0; col < matrix[row].length; col++) {
                 int key = ((row * ROW) + (col));
-                if (hashMap.get(key) != null)
+                if (hashMap.get(key) != null) {
                     matrix[row][col].setColor(hashMap.get(key));
+                }
             }
+        }
+
+        if(hashMap.size()>=((ROW*COL)-1)){
+            Toast.makeText(mContext, "Game Completed", Toast.LENGTH_LONG).show();
+           // onReset();
         }
     }
 
-    HashMap<Integer, Integer> hashMap = new HashMap<>();
 
     private void cellSearch(int row, int col, int selectedColor) {
         if (hashMap.get(0) == null) {
             hashMap.put(0, selectedColor);
         }
-        row = row%ROW;
-        col = col%COL;
+        row = row % ROW;
+        col = col % COL;
         if ((col + 1) < COL) {
             if (matrix[row][col + 1].getColor() == matrix[row][col].getColor()) {
                 int key = ((row * ROW) + (col + 1));
@@ -146,8 +153,6 @@ public class GameWorld extends View {
                 cellSearch(row, (col + 1), selectedColor);
             }
         }
-
-
 
 
         if ((row + 1) < ROW) {

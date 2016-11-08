@@ -14,11 +14,9 @@ import java.util.HashMap;
  * This class contains whole game logic
  */
 public class GameWorld extends View {
-    private static final int COL = 6;
-    private static final int ROW = 6;
-    private static final int TAG_COL = 1;
-    private static final int TAG_COLOR = 0;
-    private static final int TAG_ROW = 2;
+    private static final int COL = 8;
+    private static final int ROW = 8;
+    private static final int CELL_SIZE = 150;
     private final int TOTAL_BUTTON = 4;
     private static final float INIT_TABLE_X = 0;
     private static final float INIT_TABLE_Y = 0;
@@ -34,8 +32,8 @@ public class GameWorld extends View {
         super(pContext);
         mContext = pContext;
         matrix = new CellInfo[ROW][COL];
-        CELL_W = Utils.convertPixelsToDp(150, mContext);
-        CELL_H = Utils.convertPixelsToDp(150, mContext);
+        CELL_W = Utils.convertPixelsToDp(CELL_SIZE, mContext);
+        CELL_H = Utils.convertPixelsToDp(CELL_SIZE, mContext);
         initTable();
     }
 

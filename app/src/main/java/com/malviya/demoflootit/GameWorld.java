@@ -4,10 +4,8 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.util.Log;
 import android.view.View;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -17,7 +15,7 @@ public class GameWorld extends View {
     private static final int COL = 8;
     private static final int ROW = 8;
     private static final int CELL_SIZE = 150;
-    private final int TOTAL_BUTTON = 4;
+    private final int TOTAL_BUTTON = 7;
     private static final float INIT_TABLE_X = 0;
     private static final float INIT_TABLE_Y = 0;
     private static float CELL_W;
@@ -51,27 +49,7 @@ public class GameWorld extends View {
     }
 
 
-   /* private void drawRectTable(Canvas canvas, Paint mGridPaint) {
-        for (int col = 0; col < COL; col++) {
-            for (int row = 0; row < ROW; row++) {
-                canvas.drawRect(INIT_TABLE_X + (col * CELL_W), INIT_TABLE_Y + (CELL_H * row), (col + 1) * CELL_W, (row + 1) * CELL_H, mGridPaint);
-            }
-        }
 
-    }*/
-
-   /* private void drawRectTable(Canvas canvas, Paint mGridPaint) {
-        Paint paint = new Paint();
-        paint.setAntiAlias(true);
-        paint.setStrokeWidth(Utils.convertPixelsToDp(5, mContext));
-        paint.setStyle(Paint.Style.FILL);
-        for (CellInfo cell : mCellList) {
-            paint.setColor(cell.getColor());
-            canvas.drawRect(INIT_TABLE_X + (cell.getCol() * CELL_W), INIT_TABLE_Y + (CELL_H * cell.getRow()), (cell.getCol() + 1) * CELL_W, (cell.getRow() + 1) * CELL_H, paint);
-        }
-
-
-    }*/
 
     private void drawRectTable(Canvas canvas, Paint mGridPaint) {
         Paint paint = new Paint();
@@ -88,14 +66,6 @@ public class GameWorld extends View {
     }
 
 
-    /*private void initTable() {
-        mCellList.clear();
-        for (int col = 0; col < COL; col++) {
-            for (int row = 0; row < ROW; row++) {
-                mCellList.add(new CellInfo(getRandomColor(Math.random() * 10), col, row));
-            }
-        }
-    }*/
     private void initTable() {
         for (int row = 0; row < matrix.length; row++) {
             for (int col = 0; col < matrix[row].length; col++) {
@@ -126,6 +96,12 @@ public class GameWorld extends View {
                 return Color.GREEN;
             case 3:
                 return Color.BLUE;
+            case 4:
+                return Color.CYAN;
+            case 5:
+                return Color.MAGENTA;
+            case 6:
+                return Color.YELLOW;
         }
         return Color.BLACK;
     }

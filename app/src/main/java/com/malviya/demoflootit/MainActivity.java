@@ -35,10 +35,19 @@ public class MainActivity extends Activity implements View.OnClickListener {
         btn3.setBackgroundColor(Color.GREEN);
         ImageView btn4 = (ImageView)findViewById(R.id.imageview4);
         btn4.setBackgroundColor(Color.BLUE);
+        ImageView btn5 = (ImageView)findViewById(R.id.imageview5);
+        btn5.setBackgroundColor(Color.CYAN);
+        ImageView btn6 = (ImageView)findViewById(R.id.imageview6);
+        btn6.setBackgroundColor(Color.MAGENTA);
+        ImageView btn7 = (ImageView)findViewById(R.id.imageview7);
+        btn7.setBackgroundColor(Color.YELLOW);
         btn1.setOnClickListener(this);
         btn2.setOnClickListener(this);
         btn3.setOnClickListener(this);
         btn4.setOnClickListener(this);
+        btn5.setOnClickListener(this);
+        btn6.setOnClickListener(this);
+        btn7.setOnClickListener(this);
     }
 
     @Override
@@ -58,6 +67,15 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 break;
             case R.id.imageview4:
                 mGameworld.findCellChainAndFloodWithColor(Color.BLUE);
+                break;
+            case R.id.imageview5:
+                mGameworld.findCellChainAndFloodWithColor(Color.CYAN);
+                break;
+            case R.id.imageview6:
+                mGameworld.findCellChainAndFloodWithColor(Color.MAGENTA);
+                break;
+            case R.id.imageview7:
+                mGameworld.findCellChainAndFloodWithColor(Color.YELLOW);
                 break;
         }
     }

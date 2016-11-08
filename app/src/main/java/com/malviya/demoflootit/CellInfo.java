@@ -19,11 +19,23 @@ public class CellInfo {
         return color;
     }
 
+    public void setColor(int color) {
+        this.color = color;
+    }
+
     public int getCol() {
         return col;
     }
 
+    public void setCol(int color) {
+        this.col = color;
+    }
+
     public int getRow() {
         return row;
+    }
+
+    public void setRow(int color) {
+        this.row = color;
     }
 }

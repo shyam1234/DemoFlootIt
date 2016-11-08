@@ -48,12 +48,16 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 mGameworld.onReset();
                 break;
             case R.id.imageview1:
+                mGameworld.findCellChainAndFloodWithColor(Color.RED);
                 break;
             case R.id.imageview2:
+                mGameworld.findCellChainAndFloodWithColor(Color.WHITE);
                 break;
             case R.id.imageview3:
+                mGameworld.findCellChainAndFloodWithColor(Color.GREEN);
                 break;
             case R.id.imageview4:
+                mGameworld.findCellChainAndFloodWithColor(Color.BLUE);
                 break;
         }
     }

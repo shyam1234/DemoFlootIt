@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">DemoFlootIt</string>
+    <string name="msg_game_completed">Game Completed</string>
+    <string name="msg_reset_game">Reset Game</string>
 </resources>

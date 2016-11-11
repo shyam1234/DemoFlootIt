@@ -51,7 +51,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="2dp"
             android:layout_toRightOf="@+id/textview_total_move"
-            android:text="22"
+            android:text="0"
             android:textColor="@color/red"
             android:textSize="38sp" />
 

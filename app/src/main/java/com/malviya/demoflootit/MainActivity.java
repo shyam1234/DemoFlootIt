@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Created by 23508 on 11/7/2016.
@@ -16,7 +17,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     private ImageView mReset;
     private GameWorld mGameworld;
-    private TextView mScore;
+    public static TextView mScore;
     private TextView mTotalMoves;
     public static int mCount;
 
@@ -96,10 +97,18 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 mGameworld.findCellChain(Color.YELLOW);
                 break;
         }
+
+        mTotalMoves.setText(""+mCount);
+
     }
 
     private void reset() {
-        mGameworld.onReset();
+        //true: reset the game else change the game
+        mGameworld.onChangeGame(true);
+        Toast.makeText(this, R.string.msg_reset_game, Toast.LENGTH_LONG).show();
         mCount = 0;
+        mScore.setText("0");
     }
+
+
 }

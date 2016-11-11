@@ -7,16 +7,21 @@ import android.graphics.Paint;
 import android.view.View;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
  * This class contains whole game logic
  */
 public class GameWorld extends View {
-    private static final int COL = 8;
-    private static final int ROW = 8;
-    private static final int CELL_SIZE = 150;
+    private static final int COL = 12;
+    private static final int ROW = 12;
+    private static final int CELL_SIZE = 220;
+    private static final int BONUS_MARK = 5;
+    private static final int BONUS_VALUE = 50;
+    private static final int POINTS_VALUE = 10;
     private final int TOTAL_BUTTON = 7;
+    private final int RANDOM_COLOR_FREQUENCY = 10;
     private static final float INIT_TABLE_X = 0;
     private static final float INIT_TABLE_Y = 0;
     private static float CELL_W;
@@ -26,16 +31,20 @@ public class GameWorld extends View {
     private int randomColor;
     private int widthSize;
     private int heightSize;
+    private int mScore;
     HashMap<Integer, Integer> hashMap;
 
     public GameWorld(Context pContext) {
         super(pContext);
         mContext = pContext;
         hashMap = new HashMap<>();
+        mAnimation  = new ArrayList<>();
+        mCurrLevelPattern = new ArrayList<>();
         matrix = new CellInfo[ROW][COL];
         CELL_W = Utils.convertPixelsToDp(CELL_SIZE, mContext);
         CELL_H = Utils.convertPixelsToDp(CELL_SIZE, mContext);
-        initTable();
+        //true: reset the game else change the game
+        initTable(false);
     }
 
 
@@ -43,12 +52,24 @@ public class GameWorld extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         Paint paint = new Paint();
-        canvas.drawRect(0, 0, widthSize, heightSize, paint);
+        canvas.drawRect(0, 0, widthSize, heightSize, paint);        
         paint.setColor(Color.YELLOW);
         paint.setAntiAlias(true);
         paint.setStrokeWidth(Utils.convertPixelsToDp(0, mContext));
         paint.setStyle(Paint.Style.STROKE);
         drawRectTable(canvas, paint);
+        
+        //for ani
+        renderAni(canvas,paint);
+    }
+
+    private ArrayList<FloatingAnimation> mAnimation;
+    private void renderAni(Canvas canvas, Paint paint) {
+        for(FloatingAnimation obj : mAnimation){
+             obj.rander(canvas,paint);
+             obj.cycle(obj, mAnimation);
+             invalidate();
+        }
     }
 
 
@@ -67,10 +88,20 @@ public class GameWorld extends View {
     }
 
 
-    private void initTable() {
+    private ArrayList<Integer> mCurrLevelPattern;
+
+    /**
+     * @param isReset: true : reset the game else change the game     *
+     */
+    private void initTable(boolean isReset) {
+        if (!isReset)
+            mCurrLevelPattern.clear();
         for (int row = 0; row < matrix.length; row++) {
             for (int col = 0; col < matrix[row].length; col++) {
-                matrix[row][col] = new CellInfo(getRandomColor(Math.random() * 10), col, row);
+                if (!isReset) {
+                    mCurrLevelPattern.add(getRandomColor(Math.random() * RANDOM_COLOR_FREQUENCY));
+                }
+                matrix[row][col] = new CellInfo(mCurrLevelPattern.get((((row * ROW) + (col)))), col, row);
             }
         }
     }
@@ -107,18 +138,27 @@ public class GameWorld extends View {
         return Color.BLACK;
     }
 
-    public void onReset() {
-        initTable();
+    public void onChangeGame(boolean isReset) {
+        initTable(isReset);
         invalidate();
         MainActivity.mCount = 0;
+        mScore = 0;
     }
 
 
     public void findCellChain(int selectedColor) {
         hashMap.clear();
         cellSearch(0, 0, selectedColor);
+        int temp_no_of_nodes = hashMap.size();
         floodWithColor();
         invalidate();
+        cellSearch(0, 0, selectedColor);
+        int curr_no_of_nodes = hashMap.size();
+        calculateScore(curr_no_of_nodes - temp_no_of_nodes);
+        if (hashMap.size() >= ((ROW * COL))) {
+            Toast.makeText(mContext, R.string.msg_game_completed, Toast.LENGTH_LONG).show();
+            onChangeGame(false);
+        }
     }
 
     private void floodWithColor() {
@@ -131,10 +171,7 @@ public class GameWorld extends View {
             }
         }
 
-        if(hashMap.size()>=((ROW*COL)-1)){
-            Toast.makeText(mContext, "Game Completed", Toast.LENGTH_LONG).show();
-           // onReset();
-        }
+
     }
 
 
@@ -144,6 +181,8 @@ public class GameWorld extends View {
         }
         row = row % ROW;
         col = col % COL;
+
+
         if ((col + 1) < COL) {
             if (matrix[row][col + 1].getColor() == matrix[row][col].getColor()) {
                 int key = ((row * ROW) + (col + 1));
@@ -154,7 +193,6 @@ public class GameWorld extends View {
             }
         }
 
-
         if ((row + 1) < ROW) {
             if (matrix[row + 1][col].getColor() == matrix[row][col].getColor()) {
                 int key = (((row + 1) * ROW) + (col));
@@ -164,5 +202,35 @@ public class GameWorld extends View {
                 cellSearch((row + 1), col, selectedColor);
             }
         }
+
     }
+
+    public void calculateScore(int value) {
+        if (true || value >= BONUS_MARK) {
+            value = (value * BONUS_VALUE);
+            switch (10){
+                case BONUS_MARK:
+                    mAnimation.add(new FloatingAnimation(mContext, Utils.convertPixelsToDp(getWidth()/2,mContext), Utils.convertPixelsToDp(getHeight()/2,mContext), 2));
+                    break;
+                case (BONUS_MARK+1):
+                    mAnimation.add(new FloatingAnimation(mContext, Utils.convertPixelsToDp(getWidth()/2,mContext)-200, Utils.convertPixelsToDp(getHeight()/2,mContext), 2));
+                    mAnimation.add(new FloatingAnimation(mContext, Utils.convertPixelsToDp(getWidth()/2,mContext)+200, Utils.convertPixelsToDp(getHeight()/2,mContext), 2));
+                    break;
+                default:
+                    mAnimation.add(new FloatingAnimation(mContext, Utils.convertPixelsToDp(getWidth()/2,mContext)-(200*2), Utils.convertPixelsToDp(getHeight()/2,mContext)+100, 2));
+                    mAnimation.add(new FloatingAnimation(mContext, Utils.convertPixelsToDp(getWidth()/2,mContext)-(200*1), Utils.convertPixelsToDp(getHeight()/2,mContext)+200, 2));
+                    mAnimation.add(new FloatingAnimation(mContext, Utils.convertPixelsToDp(getWidth()/2,mContext)+(200*1), Utils.convertPixelsToDp(getHeight()/2,mContext)+50, 2));
+                    mAnimation.add(new FloatingAnimation(mContext, Utils.convertPixelsToDp(getWidth()/2,mContext)+(200*2), Utils.convertPixelsToDp(getHeight()/2,mContext)+150, 2));
+                    break;
+            }
+
+        } else {
+            value *= POINTS_VALUE;
+        }
+        mScore = mScore + value;
+        MainActivity.mScore.setText(""+mScore);
+    }
+
+
+
 }

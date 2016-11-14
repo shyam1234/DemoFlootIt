@@ -15,15 +15,53 @@ import java.util.ArrayList;
 
 public class FloatingAnimation {
 
-    private final Bitmap icon;
+    private  Bitmap icon;
     private int mX;
     private int mY;
     private int mW;
     private int mH;
     private int speed;
 
-    public FloatingAnimation(Context context, float x, float y, int speed) {
-        icon = BitmapFactory.decodeResource(context.getResources(),R.drawable.b);
+    public FloatingAnimation(Context context, float x, float y, int speed, int random, int bollons) {
+        if(bollons==1){
+            switch (random%2){
+                case 0:
+                    icon = BitmapFactory.decodeResource(context.getResources(),R.drawable.balloon1);
+                    break;
+                case 1:
+                    icon = BitmapFactory.decodeResource(context.getResources(),R.drawable.balloon);
+                    break;
+            }
+        }else if(bollons==2){
+            switch (random%3){
+                case 0:
+                    icon = BitmapFactory.decodeResource(context.getResources(),R.drawable.balloon1);
+                    break;
+                case 1:
+                    icon = BitmapFactory.decodeResource(context.getResources(),R.drawable.bool);
+                    break;
+                case 2:
+                    icon = BitmapFactory.decodeResource(context.getResources(),R.drawable.balloon);
+                    break;
+            }
+        }else  {
+            switch (random%4){
+                case 0:
+                    icon = BitmapFactory.decodeResource(context.getResources(),R.drawable.balloon1);
+                    break;
+                case 1:
+                    icon = BitmapFactory.decodeResource(context.getResources(),R.drawable.bool);
+                    break;
+                case 2:
+                    icon = BitmapFactory.decodeResource(context.getResources(),R.drawable.b);
+                    break;
+                case 3:
+                    icon = BitmapFactory.decodeResource(context.getResources(),R.drawable.b);
+                    break;
+            }
+        }
+
+
         mX = (int )x;
         mY = (int) y;
         this.speed =speed;

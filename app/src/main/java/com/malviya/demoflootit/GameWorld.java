@@ -67,7 +67,9 @@ public class GameWorld extends View {
     private void renderAni(Canvas canvas, Paint paint) {
         for(FloatingAnimation obj : mAnimation){
              obj.rander(canvas,paint);
-             obj.cycle(obj, mAnimation);
+             if(obj.cycle(obj, mAnimation)) {
+                 mAnimation.remove(mAnimation);
+             }
              invalidate();
         }
     }
@@ -208,19 +210,19 @@ public class GameWorld extends View {
     public void calculateScore(int value) {
         if (true || value >= BONUS_MARK) {
             value = (value * BONUS_VALUE);
-            switch (10){
+            switch (value){
                 case BONUS_MARK:
-                    mAnimation.add(new FloatingAnimation(mContext, Utils.convertPixelsToDp(getWidth()/2,mContext), Utils.convertPixelsToDp(getHeight()/2,mContext), 2));
+                    mAnimation.add(new FloatingAnimation(mContext, Utils.convertPixelsToDp(getWidth()/2,mContext), Utils.convertPixelsToDp(getHeight()/2,mContext), 8));
                     break;
                 case (BONUS_MARK+1):
-                    mAnimation.add(new FloatingAnimation(mContext, Utils.convertPixelsToDp(getWidth()/2,mContext)-200, Utils.convertPixelsToDp(getHeight()/2,mContext), 2));
-                    mAnimation.add(new FloatingAnimation(mContext, Utils.convertPixelsToDp(getWidth()/2,mContext)+200, Utils.convertPixelsToDp(getHeight()/2,mContext), 2));
+                    mAnimation.add(new FloatingAnimation(mContext, Utils.convertPixelsToDp(getWidth()/2,mContext)-(200*Utils.getRandom()), Utils.convertPixelsToDp(getHeight()/2+(100*Utils.getRandom()),mContext), 8));
+                    mAnimation.add(new FloatingAnimation(mContext, Utils.convertPixelsToDp(getWidth()/2,mContext)+(200*Utils.getRandom()), Utils.convertPixelsToDp(getHeight()/2+(50*Utils.getRandom()),mContext), 8));
                     break;
                 default:
-                    mAnimation.add(new FloatingAnimation(mContext, Utils.convertPixelsToDp(getWidth()/2,mContext)-(200*2), Utils.convertPixelsToDp(getHeight()/2,mContext)+100, 2));
-                    mAnimation.add(new FloatingAnimation(mContext, Utils.convertPixelsToDp(getWidth()/2,mContext)-(200*1), Utils.convertPixelsToDp(getHeight()/2,mContext)+200, 2));
-                    mAnimation.add(new FloatingAnimation(mContext, Utils.convertPixelsToDp(getWidth()/2,mContext)+(200*1), Utils.convertPixelsToDp(getHeight()/2,mContext)+50, 2));
-                    mAnimation.add(new FloatingAnimation(mContext, Utils.convertPixelsToDp(getWidth()/2,mContext)+(200*2), Utils.convertPixelsToDp(getHeight()/2,mContext)+150, 2));
+                    mAnimation.add(new FloatingAnimation(mContext, Utils.convertPixelsToDp(getWidth()/2,mContext)-(200*Utils.getRandom()), Utils.convertPixelsToDp(getHeight()/2,mContext)+(100*Utils.getRandom()), 8));
+                    mAnimation.add(new FloatingAnimation(mContext, Utils.convertPixelsToDp(getWidth()/2,mContext)-(200*Utils.getRandom()), Utils.convertPixelsToDp(getHeight()/2,mContext)+(200*Utils.getRandom()),8));
+                    mAnimation.add(new FloatingAnimation(mContext, Utils.convertPixelsToDp(getWidth()/2,mContext)+(200*Utils.getRandom()), Utils.convertPixelsToDp(getHeight()/2,mContext)+(50*Utils.getRandom()), 8));
+                    mAnimation.add(new FloatingAnimation(mContext, Utils.convertPixelsToDp(getWidth()/2,mContext)+(200*Utils.getRandom()), Utils.convertPixelsToDp(getHeight()/2,mContext)+(150*Utils.getRandom()), 8));
                     break;
             }
 

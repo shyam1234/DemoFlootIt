@@ -3,6 +3,7 @@ package com.malviya.demoflootit;
 import android.content.Context;
 import android.content.res.Resources;
 import android.util.DisplayMetrics;
+import android.util.Log;
 
 /**
  * Created by 23508 on 11/8/2016.
@@ -23,5 +24,11 @@ public class Utils {
         DisplayMetrics metrics = resources.getDisplayMetrics();
         float dp = px / ((float) metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
         return dp;
+    }
+
+    public static int getRandom() {
+        int i  =(int) (Math.random() * 10);
+        Log.d("random ","getrandom : "+i);
+        return i;
     }
 }

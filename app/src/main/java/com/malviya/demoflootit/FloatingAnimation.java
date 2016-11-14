@@ -23,19 +23,21 @@ public class FloatingAnimation {
     private int speed;
 
     public FloatingAnimation(Context context, float x, float y, int speed) {
-        icon = BitmapFactory.decodeResource(context.getResources(),   R.drawable.balloons);
+        icon = BitmapFactory.decodeResource(context.getResources(),R.drawable.b);
         mX = (int )x;
         mY = (int) y;
         this.speed =speed;
     }
 
-    public void cycle(FloatingAnimation mAnimation, ArrayList<FloatingAnimation> animation){
+    public boolean cycle(FloatingAnimation mAnimation, ArrayList<FloatingAnimation> animation){
         if(mY > (-icon.getHeight()-10)){
             mY-=speed;
         }else{
-            animation.remove(mAnimation);
+            //animation.remove(mAnimation);
+            return true;
         }
 
+        return false;
     }
 
     public void rander(Canvas canvas, Paint paint){
